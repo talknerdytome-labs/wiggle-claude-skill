@@ -22,83 +22,39 @@ Create professional logo animations using Lottie JSON format. Transform static l
 - **Preview Mode**: Render only first N frames for quick iteration
 - **Loop Validation**: Ensure seamless looping animations
 
-### New in Latest Version ✨
+### New in Latest Version
 - ✅ Automatic asset validation (checks for missing external files)
 - ✅ Asset path resolution (relative to JSON file location)
 - ✅ Output verification (detects blank/corrupted files)
-- ✅ Preview mode (`--preview-frames N`) - renders only first N frames
-- ✅ Test mode (`--test-render`) - small test render with confirmation prompt
+- ✅ Preview mode - renders only first N frames for quick testing
+- ✅ Test mode - small test render with confirmation prompt
 
 ## Installation
 
-### For Claude Code Users
+1. **[Download this skill](https://github.com/talknerdytome-labs/wiggle-claude-skill/archive/refs/heads/main.zip)** as a ZIP file
+2. **Add to Claude** following the [official skills guide](https://support.claude.com/en/articles/12512180-using-skills-in-claude)
+3. **Start animating!** Claude Code handles all dependencies automatically
 
-Install the skill via the Claude Code marketplace:
-
-```bash
-# Add the marketplace (if not already added)
-/plugin marketplace add anthropics/skills
-
-# Install wiggle skill
-/plugin install wiggle@anthropic-agent-skills
-```
-
-Or install from this repository:
-
-```bash
-# Clone the repository
-git clone https://github.com/YOUR_USERNAME/wiggle-claude-skill.git
-
-# Install as a local skill in Claude Code
-# Copy/symlink to your Claude Code skills directory
-```
-
-### Dependencies
-
-The skill requires these Python packages:
-
-```bash
-pip install lottie[all]    # Lottie manipulation
-pip install Pillow         # Image processing
-pip install pycairo        # Cairo rendering (for GIF)
-```
-
-#### Cairo Installation
-
-**macOS:**
-```bash
-brew install cairo pkg-config
-pip install pycairo
-```
-
-**Linux (Ubuntu/Debian):**
-```bash
-sudo apt-get install libcairo2-dev pkg-config python3-dev
-pip install pycairo
-```
-
-**Verify:**
-```bash
-python3 -c "import cairo; print('Cairo OK')"
-```
+That's it! No manual dependency installation needed - Claude Code manages the Python environment.
 
 ## Quick Start
 
-### Basic Usage with Claude Code
+### Basic Usage
 
-1. **Ask Claude to animate your logo:**
+Simply ask Claude to animate your logo:
+
 ```
 Animate my logo with a bounce entrance effect
 ```
 
-2. **Provide your logo file** (PNG, SVG, or JPG)
+Then provide your logo file (PNG, SVG, or JPG).
 
-3. **Claude will:**
-   - Analyze your logo structure
-   - Define appropriate motion philosophy
-   - Prepare optimized assets
-   - Create Lottie JSON animation
-   - Render preview and final outputs
+Claude will:
+- Analyze your logo structure
+- Define appropriate motion philosophy
+- Prepare optimized assets
+- Create Lottie JSON animation
+- Render preview and final outputs
 
 ### Example Requests
 
@@ -109,19 +65,6 @@ Animate my logo with a bounce entrance effect
 "Create a waveform animation for my audio app logo"
 "Animate my logo with a bounce entrance, then loop it"
 ```
-
-## Scripts Reference
-
-| Script | Purpose | Example |
-|--------|---------|---------|
-| `prepare_logo.py` | Optimize and convert logo images | `python scripts/prepare_logo.py logo.png --max-size 500` |
-| `extract_svg_elements.py` | Extract elements from SVG | `python scripts/extract_svg_elements.py logo.svg --list` |
-| `validate_lottie.py` | Check Lottie structure | `python scripts/validate_lottie.py animation.json` |
-| `validate_loop.py` | Verify perfect loop | `python scripts/validate_loop.py animation.json` |
-| `render_lottie.py` | Render to GIF/MP4 | `python scripts/render_lottie.py animation.json output.gif` |
-| `render_lottie.py --preview-frames N` | Quick preview | `python scripts/render_lottie.py animation.json preview.gif --preview-frames 60` |
-| `render_lottie.py --test-render` | Test mode with warnings | `python scripts/render_lottie.py animation.json test.gif --test-render` |
-| `batch_export.py` | Export multiple formats | `python scripts/batch_export.py animation.json ./output gif,mp4` |
 
 ## Animation Patterns
 
@@ -141,7 +84,9 @@ Animate my logo with a bounce entrance effect
 
 See [SKILL.md](SKILL.md) for complete documentation and [references/detailed_examples.md](references/detailed_examples.md) for code examples.
 
-## Workflow
+## Typical Workflow
+
+When you work with Claude using this skill:
 
 ```
 1. Define Motion Philosophy (30s)
@@ -151,67 +96,33 @@ See [SKILL.md](SKILL.md) for complete documentation and [references/detailed_exa
    └─ Text? Multi-element? SVG or PNG?
 
 3. Prepare Assets
-   └─ python scripts/prepare_logo.py logo.png --max-size 500
+   └─ Claude optimizes your logo automatically
 
 4. Create Lottie JSON Animation
-   └─ Use external references ("e": 0) during development
+   └─ Uses external references for reliability
 
-5. Validate
-   └─ python scripts/validate_lottie.py animation.json
+5. Validate & Preview
+   └─ Quick preview render to verify concept
 
-6. Render with Preview
-   └─ python scripts/render_lottie.py animation.json preview.gif --preview-frames 60
-
-7. Full Render
-   └─ python scripts/render_lottie.py animation.json logo.gif
+6. Full Render
+   └─ Generate final GIF/MP4 outputs
 ```
-
-## Known Limitations
-
-### Asset Path Resolution
-
-External assets (PNGs/SVGs) are resolved **relative to the Lottie JSON file location**. Place assets in the same directory as your JSON file:
-
-```
-✅ Correct:
-project/
-├── animation.json
-└── logo_optimized.png
-
-❌ Wrong:
-project/
-├── animations/
-│   └── animation.json  (references "../logo_optimized.png")
-└── logo_optimized.png
-```
-
-### Embedded Base64 vs External References
-
-**Recommended workflow:**
-1. Use external references (`"e": 0`) during development/rendering
-2. Optionally embed base64 AFTER successful rendering for distribution
-3. Keep external version for future edits
-
-**Why?** Cairo renderer crashes with embedded images >100KB.
 
 ## Troubleshooting
 
 ### Asset not found errors
-- **Fix:** Move assets to JSON file's directory
-- **Validation:** `render_lottie.py` validates assets before rendering
+- Assets must be in the same directory as the Lottie JSON file
+- Claude validates assets before rendering
 
-### Blank/corrupted output
-- **Fix:** Check asset validation messages, verify file sizes
-- **Detection:** Output verification runs automatically
+### Blank or corrupted output
+- Check asset validation messages
+- Verify file sizes aren't too large
 
-### MemoryError during rendering
-- **Fix:** Use external reference (`"e": 0`) instead of embedded base64
+### Want to iterate faster?
+- Ask Claude to render a preview first (only first 60 frames)
+- Use test mode for quick concept validation
 
-### Preview renders save time
-- **Tip:** Use `--preview-frames 60` to validate concept before full render
-- **Tip:** Use `--test-render` for interactive testing
-
-See [SKILL.md](SKILL.md) troubleshooting section for comprehensive guide.
+See [references/troubleshooting.md](references/troubleshooting.md) for comprehensive troubleshooting guide.
 
 ## Documentation
 

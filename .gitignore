@@ -58,3 +58,7 @@ _preview_*.json
 
 # Logs
 *.log
+
+# Internal documentation
+CHANGELOG.md
+REORGANIZATION_SUMMARY.md
