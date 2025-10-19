@@ -1,0 +1,18 @@
+<svg width="512" height="256" xmlns="http://www.w3.org/2000/svg">
+  <!-- Example Logo: Simple geometric design -->
+  <rect width="512" height="256" fill="transparent"/>
+
+  <!-- Circle -->
+  <circle cx="128" cy="128" r="80" fill="#3B82F6" opacity="0.9"/>
+
+  <!-- Triangle -->
+  <polygon points="256,48 336,208 176,208" fill="#8B5CF6" opacity="0.9"/>
+
+  <!-- Square -->
+  <rect x="304" y="48" width="160" height="160" rx="8" fill="#EC4899" opacity="0.9"/>
+
+  <!-- Text -->
+  <text x="256" y="240" font-family="Arial, sans-serif" font-size="24" font-weight="bold" text-anchor="middle" fill="#1F2937">
+    WIGGLE DEMO
+  </text>
+</svg>
